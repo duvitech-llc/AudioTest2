@@ -1,0 +1,2 @@
+utils.c:6:6:hexdump	56	static
+utils.c:34:10:ZipCRC	16	static

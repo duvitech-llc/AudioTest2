@@ -1,0 +1,6 @@
+fifo_buff.c:7:6:fifo_init	0	static
+fifo_buff.c:16:5:fifo_read	16	static
+fifo_buff.c:37:5:fifo_write	20	static
+fifo_buff.c:59:5:fifo_lookback	8	static
+fifo_buff.c:76:5:fifo_get_read_index	0	static
+fifo_buff.c:80:5:fifo_get_write_index	0	static
