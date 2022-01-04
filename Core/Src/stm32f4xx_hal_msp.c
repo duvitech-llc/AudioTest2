@@ -137,11 +137,22 @@ void HAL_CRC_MspDeInit(CRC_HandleTypeDef* hcrc)
 void HAL_I2S_MspInit(I2S_HandleTypeDef* hi2s)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
+  RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};
   if(hi2s->Instance==SPI3)
   {
   /* USER CODE BEGIN SPI3_MspInit 0 */
 
   /* USER CODE END SPI3_MspInit 0 */
+  /** Initializes the peripherals clock
+  */
+    PeriphClkInitStruct.PeriphClockSelection = RCC_PERIPHCLK_I2S;
+    PeriphClkInitStruct.PLLI2S.PLLI2SN = 192;
+    PeriphClkInitStruct.PLLI2S.PLLI2SR = 2;
+    if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInitStruct) != HAL_OK)
+    {
+      Error_Handler();
+    }
+
     /* Peripheral clock enable */
     __HAL_RCC_SPI3_CLK_ENABLE();
 
@@ -424,11 +435,10 @@ void HAL_PCD_MspInit(PCD_HandleTypeDef* hpcd)
     /**USB_OTG_FS GPIO Configuration
     PA8     ------> USB_OTG_FS_SOF
     PA9     ------> USB_OTG_FS_VBUS
-    PA10     ------> USB_OTG_FS_ID
     PA11     ------> USB_OTG_FS_DM
     PA12     ------> USB_OTG_FS_DP
     */
-    GPIO_InitStruct.Pin = USB_SOF_Pin|USB_ID_Pin|USB_DM_Pin|USB_DP_Pin;
+    GPIO_InitStruct.Pin = USB_SOF_Pin|USB_DM_Pin|USB_DP_Pin;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_VERY_HIGH;
@@ -468,12 +478,10 @@ void HAL_PCD_MspDeInit(PCD_HandleTypeDef* hpcd)
     /**USB_OTG_FS GPIO Configuration
     PA8     ------> USB_OTG_FS_SOF
     PA9     ------> USB_OTG_FS_VBUS
-    PA10     ------> USB_OTG_FS_ID
     PA11     ------> USB_OTG_FS_DM
     PA12     ------> USB_OTG_FS_DP
     */
-    HAL_GPIO_DeInit(GPIOA, USB_SOF_Pin|USB_VBUS_Pin|USB_ID_Pin|USB_DM_Pin
-                          |USB_DP_Pin);
+    HAL_GPIO_DeInit(GPIOA, USB_SOF_Pin|USB_VBUS_Pin|USB_DM_Pin|USB_DP_Pin);
 
   /* USER CODE BEGIN USB_OTG_FS_MspDeInit 1 */
 
@@ -486,4 +494,3 @@ void HAL_PCD_MspDeInit(PCD_HandleTypeDef* hpcd)
 
 /* USER CODE END 1 */
 
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
